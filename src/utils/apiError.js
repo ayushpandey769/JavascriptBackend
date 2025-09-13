@@ -1,4 +1,3 @@
-const { Error } = require("mongoose")
 
 class apiError extends Error{
     constructor(
