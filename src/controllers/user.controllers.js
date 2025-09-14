@@ -109,7 +109,13 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, username, password } = req.body;
 
-  if (!email || !username) {
+
+  // if (!username || !email) {
+    // if (!username && !email) {
+    //     throw new apiError(400, "email or username is required")
+    // }
+
+  if (!(email || username)) {
     throw new apiError(400, "email or username is required");
   }
 
@@ -134,7 +140,7 @@ const loginUser = asyncHandler(async (req, res) => {
   .select("-password -refreshToken")
 
 
-  const option = {
+  const options = {
     httpOnly: true,
     secure: true
   }
@@ -156,7 +162,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 
-const logoutUser = asyncHandler(async (req , req) => {
+const logoutUser = asyncHandler(async (req , res) => {
   await User.findByIdAndUpdate(
     req.user._id,
     {
@@ -168,7 +174,7 @@ const logoutUser = asyncHandler(async (req , req) => {
       new: true
     }
   )
-    const option = {
+    const options = {
     httpOnly: true,
     secure: true
   }
