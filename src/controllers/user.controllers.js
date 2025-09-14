@@ -135,6 +135,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   const {refreshToken , accessToken} = await generateAccessAndRefreshTokens(user._id)
+  
 
   const loggedInUser = await User.findById(user._id)
   .select("-password -refreshToken")
@@ -145,6 +146,7 @@ const loginUser = asyncHandler(async (req, res) => {
     secure: true
   }
 
+
   return res
   .status(200)
   .cookie("accessToken", accessToken, options)
@@ -153,16 +155,20 @@ const loginUser = asyncHandler(async (req, res) => {
     new apiResponse(
       200,
       {
-        user: loggedInUser , accessToken , refreshToken
+        loggedInUser , accessToken , refreshToken
       },
       "User loggedIn Successfully"
     )
   )
 
+  
+
 });
 
 
 const logoutUser = asyncHandler(async (req , res) => {
+
+  
   await User.findByIdAndUpdate(
     req.user._id,
     {
