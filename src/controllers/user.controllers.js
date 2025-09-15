@@ -9,8 +9,9 @@ import jwt from "jsonwebtoken"
 const generateAccessAndRefreshTokens = async(userId) => {
   try {
     const user = await User.findById(userId)
-    const accessToken = user.generateAccessToken()
+    const accessToken = await user.generateAccessToken()
     const refreshToken = user.generateRefreshToken()
+    
 
     user.refreshToken = refreshToken
     await user.save({validateBeforeSave: false})
@@ -192,6 +193,8 @@ const logoutUser = asyncHandler(async (req , res) => {
   .clearCookie("refreshToken", options)
   .json(new apiResponse(200 , {} , "User logged Out"))
 })
+
+
 
 const refreshAccessToken = asyncHandler(async(req , res) => {
 
